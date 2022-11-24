@@ -1,3 +1,4 @@
+import { existsSync } from 'fs'
 import { resolve } from 'path'
 import AutoImport from 'unimport/unplugin'
 import Vue from '@vitejs/plugin-vue'
@@ -42,16 +43,14 @@ async function getAlias(buildDir: string, srcDir: string) {
  * Nuxt Vitest Plugin
  */
 export default async function (opts: LoadNuxtOptions = {}) {
-    const { runCommand } = await import('nuxi')
-    await runCommand('prepare')
-
     const { loadNuxt } = await import('nuxt')
-    opts.defaultConfig ??= {}
-    opts.defaultConfig._prepare = true
     const nuxt = await loadNuxt(opts)
+    const { buildDir, srcDir } = nuxt.options
 
-    const buildDir = nuxt.options.buildDir
-    const srcDir = nuxt.options.srcDir
+    if (!existsSync(buildDir)) {
+        const { runCommand } = await import('nuxi')
+        await runCommand('prepare')
+    }
 
     return [
         Vue(),
