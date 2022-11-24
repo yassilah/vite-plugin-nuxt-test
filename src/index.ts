@@ -1,4 +1,4 @@
-import { join, resolve } from 'path'
+import { resolve } from 'path'
 import AutoImport from 'unimport/unplugin'
 import Vue from '@vitejs/plugin-vue'
 import type { LoadNuxtOptions } from '@nuxt/kit'
@@ -6,11 +6,11 @@ import type { LoadNuxtOptions } from '@nuxt/kit'
 /**
  * Turn tsconfig paths into aliases.
  */
-function pathsToAlias(paths: Record<string, string[]>) {
+function pathsToAlias(srcDir: string, paths: Record<string, string[]>) {
     return Object.fromEntries(
         Object.entries(paths).map(([key, value]) => [
             key,
-            resolve(__dirname, value[0])
+            resolve(srcDir, value[0])
         ])
     )
 }
@@ -20,7 +20,7 @@ function pathsToAlias(paths: Record<string, string[]>) {
  */
 async function getTsConfig(buildDir: string) {
     const { readTSConfig } = await import('pkg-types')
-    return await readTSConfig(join(buildDir, 'tsconfig.json'))
+    return await readTSConfig(resolve(buildDir, 'tsconfig.json'))
 }
 
 /**
@@ -34,8 +34,8 @@ async function getTsConfigPaths(buildDir: string) {
 /**
  * Get the list of aliases.
  */
-async function getAlias(buildDir: string) {
-    return pathsToAlias(await getTsConfigPaths(buildDir))
+async function getAlias(buildDir: string, srcDir: string) {
+    return pathsToAlias(srcDir, await getTsConfigPaths(buildDir))
 }
 
 /**
@@ -44,7 +44,8 @@ async function getAlias(buildDir: string) {
 export default async function (opts: LoadNuxtOptions = {}) {
     const { loadNuxt } = await import('nuxt')
     const nuxt = await loadNuxt(opts)
-    const buildDir = join(process.cwd(), nuxt.options.buildDir)
+    const buildDir = nuxt.options.buildDir
+    const srcDir = nuxt.options.srcDir
 
     return [
         Vue(),
@@ -52,7 +53,7 @@ export default async function (opts: LoadNuxtOptions = {}) {
         AutoImport.default.vite({
             presets: [
                 {
-                    package: join(buildDir, 'imports.d.ts')
+                    package: resolve(buildDir, 'imports.d.ts')
                 }
             ]
         }),
@@ -61,7 +62,7 @@ export default async function (opts: LoadNuxtOptions = {}) {
             async config() {
                 return {
                     resolve: {
-                        alias: await getAlias(buildDir)
+                        alias: await getAlias(buildDir, srcDir)
                     },
                     test: {
                         deps: {
