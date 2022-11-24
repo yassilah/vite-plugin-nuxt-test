@@ -46,6 +46,7 @@ export default async function (opts: LoadNuxtOptions = {}) {
     const { loadNuxt } = await import('nuxt')
     const nuxt = await loadNuxt(opts)
     const { buildDir, srcDir } = nuxt.options
+    await nuxt.close()
 
     if (!existsSync(buildDir)) {
         const { runCommand } = await import('nuxi')

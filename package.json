@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-nuxt-test",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Vite plugin to test a Nuxt 3 application.",
   "scripts": {
     "build": "tsup-node",
