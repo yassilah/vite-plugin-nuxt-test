@@ -44,7 +44,7 @@ async function getAlias(buildDir: string) {
 export default async function (opts: LoadNuxtOptions = {}) {
     const { loadNuxt } = await import('nuxt')
     const nuxt = await loadNuxt(opts)
-    const buildDir = nuxt.options.buildDir
+    const buildDir = join(process.cwd(), nuxt.options.buildDir)
 
     return [
         Vue(),
