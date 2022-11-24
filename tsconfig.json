@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "lib": ["ESNext"],
+        "types": ["node"],
+        "target": "ES6",
+        "moduleResolution": "node",
+        "module": "esnext"
+    },
+    "exclude": [
+        "node_modules/**/*"
+    ],
+    "include": [
+        "src/**/*",
+        "tsup.config.ts"
+    ]
+}

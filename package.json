@@ -1,0 +1,39 @@
+{
+  "name": "vite-plugin-nuxt-test",
+  "version": "0.0.1",
+  "description": "Vite plugin to test a Nuxt 3 application.",
+  "scripts": {
+    "build": "tsup-node",
+    "prepack": "tsup-node"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "repository": "yassilah/vite-plugin-nuxt-test",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "nuxt",
+    "vite",
+    "vitest",
+    "test",
+    "unit"
+  ],
+  "author": "Yasser Lahbibi <yasser.lahbibi@apenhet.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@apenhet/eslint-config": "^1.1.3",
+    "nuxt": "^3.0.0",
+    "tsup": "^6.5.0"
+  },
+  "eslintConfig": {
+    "extends": "@apenhet"
+  }
+}
