@@ -48,7 +48,8 @@ export default async function (opts: LoadNuxtOptions = {}) {
 
     return [
         Vue(),
-        AutoImport.vite({
+        // @ts-expect-error somehow the default export is not recognized.
+        AutoImport.default.vite({
             presets: [
                 {
                     package: join(buildDir, 'imports.d.ts')
