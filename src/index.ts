@@ -42,8 +42,14 @@ async function getAlias(buildDir: string, srcDir: string) {
  * Nuxt Vitest Plugin
  */
 export default async function (opts: LoadNuxtOptions = {}) {
+    const { runCommand } = await import('nuxi')
+    await runCommand('prepare')
+
     const { loadNuxt } = await import('nuxt')
+    opts.defaultConfig ??= {}
+    opts.defaultConfig._prepare = true
     const nuxt = await loadNuxt(opts)
+
     const buildDir = nuxt.options.buildDir
     const srcDir = nuxt.options.srcDir
 
