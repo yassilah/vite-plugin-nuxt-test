@@ -1,6 +1,4 @@
 import { join, resolve } from 'path'
-import { loadNuxt } from 'nuxt'
-import { readTSConfig } from 'pkg-types'
 import AutoImport from 'unimport/unplugin'
 import Vue from '@vitejs/plugin-vue'
 import type { LoadNuxtOptions } from '@nuxt/kit'
@@ -21,6 +19,7 @@ function pathsToAlias(paths: Record<string, string[]>) {
  * Get the tsconfig from Nuxt.
  */
 async function getTsConfig(buildDir: string) {
+    const { readTSConfig } = await import('pkg-types')
     return await readTSConfig(join(buildDir, 'tsconfig.json'))
 }
 
@@ -43,6 +42,7 @@ async function getAlias(buildDir: string) {
  * Nuxt Vitest Plugin
  */
 export default async function (opts: LoadNuxtOptions = {}) {
+    const { loadNuxt } = await import('nuxt')
     const nuxt = await loadNuxt(opts)
     const buildDir = nuxt.options.buildDir
 
