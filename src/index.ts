@@ -53,9 +53,12 @@ export default async function (opts: LoadNuxtOptions = {}) {
         await runCommand('prepare')
     }
 
-    const autoImport: typeof AutoImport =
+    let autoImport = AutoImport
+
+    if ('default' in autoImport) {
         // @ts-expect-error somehow the default export is not recognized.
-        'default' in AutoImport ? AutoImport.default : AutoImport
+        autoImport = autoImport.default as typeof AutoImport
+    }
 
     return [
         Vue(),
