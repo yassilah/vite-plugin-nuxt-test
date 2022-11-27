@@ -58,7 +58,6 @@ export default async function (opts: LoadNuxtOptions = {}) {
 
     return [
         Vue(),
-
         autoImport.vite({
             presets: [
                 {
