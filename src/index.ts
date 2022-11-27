@@ -56,7 +56,8 @@ export default async function (opts: LoadNuxtOptions = {}) {
     let autoImport = AutoImport
 
     if ('default' in autoImport) {
-        // @ts-expect-error somehow the default export is not recognized.
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore - wrong exports?
         autoImport = autoImport.default as typeof AutoImport
     }
 
